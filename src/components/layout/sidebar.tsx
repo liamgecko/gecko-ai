@@ -329,8 +329,8 @@ export function AppSidebar() {
           </div>
         </SidebarContent>
 
-        <SidebarFooter className="border-t border-gray-800 p-4">
-          <div className="flex items-center gap-3 px-2">
+        <SidebarFooter className="border-t border-gray-800 px-2 py-4">
+          <div className="flex items-center gap-3">
             <Avatar className="h-9 w-9">
               <AvatarImage src="https://github.com/shadcn.png" alt="User" />
               <AvatarFallback>UN</AvatarFallback>
