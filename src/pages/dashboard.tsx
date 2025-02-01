@@ -11,7 +11,7 @@ import {
 
 function PlaceholderText() {
   return (
-    <p className='inline-flex whitespace-pre-wrap text-base text-muted-foreground'>
+    <div className='inline-flex items-center whitespace-pre-wrap text-base text-muted-foreground'>
       I can help you{' '}
       <TextLoop
         className='overflow-y-clip'
@@ -26,7 +26,7 @@ function PlaceholderText() {
             y: 20,
             rotateX: 90,
             opacity: 0,
-            filter: 'blur(4px)',
+            filter: 'blur(8px)',
           },
           animate: {
             y: 0,
@@ -38,7 +38,7 @@ function PlaceholderText() {
             y: -20,
             rotateX: -90,
             opacity: 0,
-            filter: 'blur(4px)',
+            filter: 'blur(8px)',
           },
         }}
       >
@@ -47,7 +47,7 @@ function PlaceholderText() {
         <span>generate a report</span>
         <span>export to your CRM</span>
       </TextLoop>
-    </p>
+    </div>
   )
 }
 

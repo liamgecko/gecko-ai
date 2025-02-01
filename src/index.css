@@ -85,6 +85,12 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
     --sidebar: 222 47% 11%; 
   }
+  ::selection {
+    @apply bg-sky-950 text-sky-300;
+  }
+  ::-moz-selection {
+    @apply bg-sky-950 text-sky-300;
+  }
 }
 @layer base {
   * {

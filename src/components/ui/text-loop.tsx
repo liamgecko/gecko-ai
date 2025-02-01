@@ -8,6 +8,7 @@ import {
   AnimatePresenceProps,
 } from 'motion/react';
 import { useState, useEffect, Children } from 'react';
+import React from 'react';
 
 export type TextLoopProps = {
   children: React.ReactNode[];
@@ -24,7 +25,7 @@ export function TextLoop({
   children,
   className,
   interval = 2,
-  transition = { duration: 0.3 },
+  transition = { duration: 0.2 },
   variants,
   onIndexChange,
   trigger = true,
@@ -36,7 +37,7 @@ export function TextLoop({
   useEffect(() => {
     if (!trigger) return;
 
-    const intervalMs = interval * 2000;
+    const intervalMs = interval * 1500;
     const timer = setInterval(() => {
       setCurrentIndex((current) => {
         const next = (current + 1) % items.length;
@@ -52,6 +53,8 @@ export function TextLoop({
     animate: { y: 0, opacity: 1 },
     exit: { y: -20, opacity: 0 },
   };
+
+  if (!items.length) return null;
 
   return (
     <div className={cn('relative inline-block whitespace-nowrap', className)}>
