@@ -9,4 +9,5 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  base: 'gecko-ai', // Replace with your actual repository name
 })
