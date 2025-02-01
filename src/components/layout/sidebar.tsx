@@ -361,7 +361,7 @@ export function AppSidebar() {
               <div className="flex items-center gap-3 cursor-pointer rounded-md p-2 hover:bg-sidebar-accent">
                 <div className="relative">
                   <Avatar className="h-9 w-9">
-                    <AvatarImage src="https://github.com/shadcn.png" alt="User" />
+                    <AvatarImage src="/avatar.png" alt="User" />
                     <AvatarFallback>LY</AvatarFallback>
                   </Avatar>
                   <span className={cn(
