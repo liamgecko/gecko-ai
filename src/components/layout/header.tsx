@@ -34,13 +34,13 @@ export function Header() {
         </Breadcrumb>
       </div>
       
-      <div className="flex items-center max-w-md w-full">
+      <div className="flex items-center max-w-sm w-full">
         <div className="relative w-full group">
           <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input 
-            type="search"
+            type="text"
             placeholder="Search..."
-            className="w-full pl-8 transition-all duration-300 border-border hover:border-transparent focus:border-transparent focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none [&::-webkit-search-cancel-button]:relative [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-cancel-button]:h-4 [&::-webkit-search-cancel-button]:w-4 [&::-webkit-search-cancel-button]:cursor-pointer [&::-webkit-search-cancel-button]:bg-foreground"
+            className="w-full pl-8 pr-16 transition-all duration-300 border-border hover:border-transparent focus:border-transparent focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none"
             style={{
               backgroundImage: 'linear-gradient(to right, hsl(var(--background)), hsl(var(--background))), linear-gradient(to right, #38bdf8, #1d4ed8)',
               backgroundOrigin: 'border-box',
