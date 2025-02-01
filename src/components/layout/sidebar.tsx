@@ -355,7 +355,7 @@ export function AppSidebar() {
           </div>
         </SidebarContent>
 
-        <SidebarFooter className="border-t border-gray-800 px-2 py-4">
+        <SidebarFooter className="border-t border-gray-800">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="flex items-center gap-3 cursor-pointer rounded-md p-2 hover:bg-sidebar-accent">
@@ -385,32 +385,32 @@ export function AppSidebar() {
                 <Label htmlFor="availability" className="text-gray-900">Set chat status</Label>
               </div>
               <DropdownMenuSeparator className="bg-gray-200" />
-              <DropdownMenuItem className="text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-100 dark:hover:text-gray-900">
+              <DropdownMenuItem className="text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-100 dark:hover:text-gray-900 cursor-pointer">
                 Agent settings
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-100 dark:hover:text-gray-900">
+              <DropdownMenuItem className="text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-100 dark:hover:text-gray-900 cursor-pointer">
                 Security preferences
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-100 dark:hover:text-gray-900">
+              <DropdownMenuItem className="text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-100 dark:hover:text-gray-900 cursor-pointer">
                 My accounts
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-100 dark:hover:text-gray-900">
+              <DropdownMenuItem className="text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-100 dark:hover:text-gray-900 cursor-pointer">
                 Service status
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-100 dark:hover:text-gray-900">
+              <DropdownMenuItem className="text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-100 dark:hover:text-gray-900 cursor-pointer ">
                 Gecko academy
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-100 dark:hover:text-gray-900">
+              <DropdownMenuItem className="text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-100 dark:hover:text-gray-900 cursor-pointer ">
                 Contact support
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-100 dark:hover:text-gray-900">
+              <DropdownMenuItem className="text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-100 dark:hover:text-gray-900 cursor-pointer ">
                 Product changes
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-100 dark:hover:text-gray-900">
+              <DropdownMenuItem className="text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-100 dark:hover:text-gray-900 cursor-pointer ">
                 Suggest a feature
               </DropdownMenuItem>
               <DropdownMenuSeparator className="bg-gray-200" />
-              <DropdownMenuItem className="text-red-500 hover:bg-red-50 dark:hover:bg-red-50 dark:hover:text-red-600">
+              <DropdownMenuItem className="text-red-500 hover:bg-red-50 dark:hover:bg-red-50 dark:hover:text-red-600 cursor-pointer">
                 Logout
               </DropdownMenuItem>
             </DropdownMenuContent>

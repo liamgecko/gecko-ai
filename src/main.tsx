@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App.tsx'
 import './index.css'
-import { RootLayout } from './components/layout/root-layout.tsx'
+import { SidebarProvider } from './components/ui/sidebar'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
-      <RootLayout>
-        <App />
-      </RootLayout>
+      <SidebarProvider>
+          <App />
+      </SidebarProvider>
     </BrowserRouter>
   </React.StrictMode>,
 )
