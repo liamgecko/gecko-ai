@@ -1,12 +1,13 @@
-import { useState } from 'react'
+import { AppSidebar } from './components/layout/sidebar'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <p>You can also provide default font-feature-settings and font-variation-settings values for a font family</p>
-    </>
+    <div className="flex min-h-screen">
+      <AppSidebar />
+      <main className="flex-1">
+        {/* Your main content will go here */}
+      </main>
+    </div>
   )
 }
 
