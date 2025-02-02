@@ -101,6 +101,15 @@ export function Header() {
     document.title = `${pageTitle} | Gecko Engage`
   }, [location.pathname])
 
+  // Add this effect to toggle body class
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.remove('menu-collapsed')
+    } else {
+      document.body.classList.add('menu-collapsed')
+    }
+  }, [isOpen])
+
   const [isFavorited, setIsFavorited] = useState(() => {
     const favorites = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]')
     return favorites.some((fav: any) => fav.href === location.pathname)
@@ -201,7 +210,7 @@ export function Header() {
           </Tooltip>
         </TooltipProvider>
         <div className="relative w-full group">
-          <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-white" />
           <Input 
             type="text"
             placeholder="Search..."

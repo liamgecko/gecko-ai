@@ -33,22 +33,6 @@ import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
 import { ArrowLeft } from "lucide-react"
-import React from "react"
-
-const favouriteNav = [
-  {
-    title: "Finance knowledge base",
-    href: "/finance-kb",
-  },
-  {
-    title: "2025 open day",
-    href: "/open-day-2025",
-  },
-  {
-    title: "Exports",
-    href: "/exports",
-  },
-]
 
 const platformNav = [
   {

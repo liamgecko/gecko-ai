@@ -91,13 +91,13 @@
   ::-moz-selection {
     @apply bg-sky-950 text-sky-300;
   }
-}
-@layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
-    
   }
+  /* body.menu-collapsed .app-body { 
+    width: 100vw;
+  } */
 }

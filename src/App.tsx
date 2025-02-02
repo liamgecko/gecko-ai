@@ -7,14 +7,13 @@ import { DashboardPage } from './pages/dashboard'
 function App() {
   return (
     <SidebarProvider defaultOpen={true}>
-      <div className="flex min-h-screen">
+      <div className="flex min-h-screen w-full">
         <AppSidebar />
-        <main className="app-body w-[calc(100vw-var(--sidebar-width))] flex flex-col justify-between">
+        <main className="app-body w-full flex flex-col justify-between">
           <Header />
           <div className="p-4">
             <Routes>
               <Route path="/" element={<DashboardPage />} />
-              {/* Add other routes here */}
             </Routes>
           </div>
         </main>
