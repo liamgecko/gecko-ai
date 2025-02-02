@@ -18,7 +18,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { Home, FileText, MessageSquare, ClipboardList, StarOff, CalendarFold, MessageSquareText, Route, PhoneCall, BookUser, SendHorizonal, Inbox, Mail, Settings, User, Users, Database, Phone, Globe, ChevronRight } from "lucide-react"
+import { Home, FileText, MessageSquare, ClipboardList, StarOff, CalendarFold, MessageSquareText, Route, PhoneCall, BookUser, SendHorizonal, Inbox, Mail, Settings, User, Users, Database, Phone, ArrowLeft, ChevronRight } from "lucide-react"
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
   DropdownMenu,
@@ -32,9 +32,19 @@ import { Label } from "@/components/ui/label"
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
-import { ArrowLeft } from "lucide-react"
 
-const platformNav = [
+// Define an interface for navigation items
+interface NavItem {
+  title: string;
+  href: string;
+  icon: React.ElementType;
+  submenu?: NavItem[];
+  collapsible?: boolean;
+  items?: NavItem[];
+}
+
+// Navigation data
+const platformNav: NavItem[] = [
   {
     title: "Dashboard",
     href: "/",
@@ -45,132 +55,60 @@ const platformNav = [
     href: "/forms",
     icon: ClipboardList,
     submenu: [
-      {
-        title: "Create Form",
-        href: "/forms/create",
-        icon: FileText,
-      },
-      {
-        title: "Form Templates",
-        href: "/forms/templates",
-        icon: ClipboardList,
-      },
-      {
-        title: "Form Responses",
-        href: "/forms/responses",
-        icon: MessageSquare,
-      },
-    ]
+      { title: "Create Form", href: "/forms/create", icon: FileText },
+      { title: "Form Templates", href: "/forms/templates", icon: ClipboardList },
+      { title: "Form Responses", href: "/forms/responses", icon: MessageSquare },
+    ],
   },
   {
     title: "Events",
     href: "/events",
     icon: CalendarFold,
     submenu: [
-        {
-          title: "Create Form",
-          href: "/forms/create",
-          icon: FileText,
-        },
-        {
-          title: "Form Templates",
-          href: "/forms/templates",
-          icon: ClipboardList,
-        },
-        {
-          title: "Form Responses",
-          href: "/forms/responses",
-          icon: MessageSquare,
-        },
-      ]
+      { title: "Create Form", href: "/forms/create", icon: FileText },
+      { title: "Form Templates", href: "/forms/templates", icon: ClipboardList },
+      { title: "Form Responses", href: "/forms/responses", icon: MessageSquare },
+    ],
   },
   {
     title: "Conversations",
     href: "/conversations",
     icon: MessageSquareText,
     submenu: [
-        {
-          title: "Create Form",
-          href: "/forms/create",
-          icon: FileText,
-        },
-        {
-          title: "Form Templates",
-          href: "/forms/templates",
-          icon: ClipboardList,
-        },
-        {
-          title: "Form Responses",
-          href: "/forms/responses",
-          icon: MessageSquare,
-        },
-      ]
+      { title: "Create Form", href: "/forms/create", icon: FileText },
+      { title: "Form Templates", href: "/forms/templates", icon: ClipboardList },
+      { title: "Form Responses", href: "/forms/responses", icon: MessageSquare },
+    ],
   },
   {
     title: "AI and Automation",
     href: "/ai",
     icon: Route,
     submenu: [
-        {
-          title: "Create Form",
-          href: "/forms/create",
-          icon: FileText,
-        },
-        {
-          title: "Form Templates",
-          href: "/forms/templates",
-          icon: ClipboardList,
-        },
-        {
-          title: "Form Responses",
-          href: "/forms/responses",
-          icon: MessageSquare,
-        },
-      ]
+      { title: "Create Form", href: "/forms/create", icon: FileText },
+      { title: "Form Templates", href: "/forms/templates", icon: ClipboardList },
+      { title: "Form Responses", href: "/forms/responses", icon: MessageSquare },
+    ],
   },
   {
     title: "Broadcasts",
     href: "/broadcasts",
     icon: SendHorizonal,
     submenu: [
-        {
-          title: "Create Form",
-          href: "/forms/create",
-          icon: FileText,
-        },
-        {
-          title: "Form Templates",
-          href: "/forms/templates",
-          icon: ClipboardList,
-        },
-        {
-          title: "Form Responses",
-          href: "/forms/responses",
-          icon: MessageSquare,
-        },
-      ]
+      { title: "Create Form", href: "/forms/create", icon: FileText },
+      { title: "Form Templates", href: "/forms/templates", icon: ClipboardList },
+      { title: "Form Responses", href: "/forms/responses", icon: MessageSquare },
+    ],
   },
   {
     title: "Calls",
     href: "/calls",
     icon: PhoneCall,
     submenu: [
-        {
-          title: "Create Form",
-          href: "/forms/create",
-          icon: FileText,
-        },
-        {
-          title: "Form Templates",
-          href: "/forms/templates",
-          icon: ClipboardList,
-        },
-        {
-          title: "Form Responses",
-          href: "/forms/responses",
-          icon: MessageSquare,
-        },
-      ]
+      { title: "Create Form", href: "/forms/create", icon: FileText },
+      { title: "Form Templates", href: "/forms/templates", icon: ClipboardList },
+      { title: "Form Responses", href: "/forms/responses", icon: MessageSquare },
+    ],
   },
   {
     title: "Settings",
@@ -183,27 +121,12 @@ const platformNav = [
         icon: User,
         collapsible: true,
         items: [
-          {
-            title: "Account settings",
-            href: "/settings/account/settings",
-          },
-          {
-            title: "Email and SMS templates",
-            href: "/settings/account/templates",
-          },
-          {
-            title: "Verified senders and domains",
-            href: "/settings/account/senders",
-          },
-          {
-            title: "Categories",
-            href: "/settings/account/categories",
-          },
-          {
-            title: "Tasks and objectives",
-            href: "/settings/account/tasks",
-          },
-        ]
+          { title: "Account settings", href: "/settings/account/settings" },
+          { title: "Email and SMS templates", href: "/settings/account/templates" },
+          { title: "Verified senders and domains", href: "/settings/account/senders" },
+          { title: "Categories", href: "/settings/account/categories" },
+          { title: "Tasks and objectives", href: "/settings/account/tasks" },
+        ],
       },
       {
         title: "User management",
@@ -211,23 +134,11 @@ const platformNav = [
         icon: Users,
         collapsible: true,
         items: [
-          {
-            title: "My user settings",
-            href: "/settings/users/my-settings",
-          },
-          {
-            title: "Users",
-            href: "/settings/users/list",
-          },
-          {
-            title: "User groups",
-            href: "/settings/users/groups",
-          },
-          {
-            title: "Mobile devices",
-            href: "/settings/users/devices",
-          },
-        ]
+          { title: "My user settings", href: "/settings/users/my-settings" },
+          { title: "Users", href: "/settings/users/list" },
+          { title: "User groups", href: "/settings/users/groups" },
+          { title: "Mobile devices", href: "/settings/users/devices" },
+        ],
       },
       {
         title: "Field management",
@@ -235,23 +146,11 @@ const platformNav = [
         icon: Database,
         collapsible: true,
         items: [
-          {
-            title: "Contact fields",
-            href: "/settings/fields/contact",
-          },
-          {
-            title: "Organisation fields",
-            href: "/settings/fields/organisation",
-          },
-          {
-            title: "Organisation types",
-            href: "/settings/fields/org-types",
-          },
-          {
-            title: "Field options",
-            href: "/settings/fields/options",
-          },
-        ]
+          { title: "Contact fields", href: "/settings/fields/contact" },
+          { title: "Organisation fields", href: "/settings/fields/organisation" },
+          { title: "Organisation types", href: "/settings/fields/org-types" },
+          { title: "Field options", href: "/settings/fields/options" },
+        ],
       },
       {
         title: "Call and SMS",
@@ -259,27 +158,12 @@ const platformNav = [
         icon: Phone,
         collapsible: true,
         items: [
-          {
-            title: "Outcomes",
-            href: "/settings/communications/outcomes",
-          },
-          {
-            title: "Telephone numbers",
-            href: "/settings/communications/telephone",
-          },
-          {
-            title: "VoIP numbers",
-            href: "/settings/communications/voip",
-          },
-          {
-            title: "Usage and costs",
-            href: "/settings/communications/usage",
-          },
-          {
-            title: "Test VoIP connection",
-            href: "/settings/communications/test-voip",
-          },
-        ]
+          { title: "Outcomes", href: "/settings/communications/outcomes" },
+          { title: "Telephone numbers", href: "/settings/communications/telephone" },
+          { title: "VoIP numbers", href: "/settings/communications/voip" },
+          { title: "Usage and costs", href: "/settings/communications/usage" },
+          { title: "Test VoIP connection", href: "/settings/communications/test-voip" },
+        ],
       },
       {
         title: "Chat settings",
@@ -287,35 +171,14 @@ const platformNav = [
         icon: MessageSquare,
         collapsible: true,
         items: [
-          {
-            title: "Widgets",
-            href: "/settings/chat/widgets",
-          },
-          {
-            title: "Chatbots",
-            href: "/settings/chat/chatbots",
-          },
-          {
-            title: "Knowledge bases",
-            href: "/settings/chat/knowledge-bases",
-          },
-          {
-            title: "Channels",
-            href: "/settings/chat/channels",
-          },
-          {
-            title: "Teams",
-            href: "/settings/chat/teams",
-          },
-          {
-            title: "Saved replies",
-            href: "/settings/chat/saved-replies",
-          },
-          {
-            title: "Chat workflows",
-            href: "/settings/chat/workflows",
-          },
-        ]
+          { title: "Widgets", href: "/settings/chat/widgets" },
+          { title: "Chatbots", href: "/settings/chat/chatbots" },
+          { title: "Knowledge bases", href: "/settings/chat/knowledge-bases" },
+          { title: "Channels", href: "/settings/chat/channels" },
+          { title: "Teams", href: "/settings/chat/teams" },
+          { title: "Saved replies", href: "/settings/chat/saved-replies" },
+          { title: "Chat workflows", href: "/settings/chat/workflows" },
+        ],
       },
       {
         title: "Data management",
@@ -323,100 +186,49 @@ const platformNav = [
         icon: Database,
         collapsible: true,
         items: [
-          {
-            title: "Integrations",
-            href: "/settings/data/integrations",
-          },
-          {
-            title: "Import data",
-            href: "/settings/data/import",
-          },
-          {
-            title: "Export data",
-            href: "/settings/data/export",
-          },
-          {
-            title: "Labels",
-            href: "/settings/data/labels",
-          },
-          {
-            title: "Data security",
-            href: "/settings/data/security",
-          },
-        ]
+          { title: "Integrations", href: "/settings/data/integrations" },
+          { title: "Import data", href: "/settings/data/import" },
+          { title: "Export data", href: "/settings/data/export" },
+          { title: "Labels", href: "/settings/data/labels" },
+          { title: "Data security", href: "/settings/data/security" },
+        ],
       },
-    ]
-  }
-]
+    ],
+  },
+];
 
-const dataNav = [
-    {
-      title: "Contacts",
-      href: "/contacts",
-      icon: BookUser,
-      submenu: [
-          {
-            title: "Create Form",
-            href: "/forms/create",
-            icon: FileText,
-          },
-          {
-            title: "Form Templates",
-            href: "/forms/templates",
-            icon: ClipboardList,
-          },
-          {
-            title: "Form Responses",
-            href: "/forms/responses",
-            icon: MessageSquare,
-          },
-        ]
-    },
-    {
-        title: "Responses",
-        href: "/responses",
-        icon: Inbox,
-        submenu: [
-            {
-              title: "Create Form",
-              href: "/forms/create",
-              icon: FileText,
-            },
-            {
-              title: "Form Templates",
-              href: "/forms/templates",
-              icon: ClipboardList,
-            },
-            {
-              title: "Form Responses",
-              href: "/forms/responses",
-              icon: MessageSquare,
-            },
-          ]
-      },
-      {
-        title: "Messages",
-        href: "/messages",
-        icon: Mail,
-        submenu: [
-            {
-              title: "Create Form",
-              href: "/forms/create",
-              icon: FileText,
-            },
-            {
-              title: "Form Templates",
-              href: "/forms/templates",
-              icon: ClipboardList,
-            },
-            {
-              title: "Form Responses",
-              href: "/forms/responses",
-              icon: MessageSquare,
-            },
-          ]
-      },
-  ]
+const dataNav: NavItem[] = [
+  {
+    title: "Contacts",
+    href: "/contacts",
+    icon: BookUser,
+    submenu: [
+      { title: "Create Form", href: "/forms/create", icon: FileText },
+      { title: "Form Templates", href: "/forms/templates", icon: ClipboardList },
+      { title: "Form Responses", href: "/forms/responses", icon: MessageSquare },
+    ],
+  },
+  {
+    title: "Responses",
+    href: "/responses",
+    icon: Inbox,
+    submenu: [
+      { title: "Create Form", href: "/forms/create", icon: FileText },
+      { title: "Form Templates", href: "/forms/templates", icon: ClipboardList },
+      { title: "Form Responses", href: "/forms/responses", icon: MessageSquare },
+    ],
+  },
+  {
+    title: "Messages",
+    href: "/messages",
+    icon: Mail,
+    submenu: [
+      { title: "Create Form", href: "/forms/create", icon: FileText },
+      { title: "Form Templates", href: "/forms/templates", icon: ClipboardList },
+      { title: "Form Responses", href: "/forms/responses", icon: MessageSquare },
+    ],
+  },
+];
 
 // Move these outside the component
 const MainMenuMotion = motion.div
@@ -428,7 +240,7 @@ const FAVORITES_KEY = 'sidebar:favorites'
 export function AppSidebar() {
   const [isAvailable, setIsAvailable] = useState(true)
   const [currentView, setCurrentView] = useState<string | null>(null)
-  const [selectedSection, setSelectedSection] = useState<any>(null)
+  const [selectedSection, setSelectedSection] = useState<NavItem | null>(null)
   const [favorites, setFavorites] = useState<Array<{ title: string; href: string }>>([])
   const location = useLocation()
   const navigate = useNavigate()
@@ -461,7 +273,7 @@ export function AppSidebar() {
     }
   }, [])
 
-  const handleMenuClick = (item: any) => {
+  const handleMenuClick = (item: NavItem) => {
     if (item.submenu) {
       setCurrentView(item.href)
       setSelectedSection(item)
