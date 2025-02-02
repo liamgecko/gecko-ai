@@ -19,6 +19,7 @@ import {
 import { useLocation } from 'react-router-dom'
 import { useState, useCallback, useEffect } from 'react'
 import { cn } from "@/lib/utils"
+import React from 'react'
 
 const FAVORITES_KEY = 'sidebar:favorites'
 
@@ -94,7 +95,22 @@ export function Header() {
   const { state } = useSidebar()
   const isOpen = state === "expanded"
   const location = useLocation()
+  const isLandingPage = location.pathname === "/"
   
+  // Create breadcrumb items from current path
+  const getBreadcrumbItems = useCallback(() => {
+    const pathSegments = location.pathname.split('/').filter(Boolean)
+    return pathSegments.map((_, index) => {
+      const path = '/' + pathSegments.slice(0, index + 1).join('/')
+      return {
+        title: routeTitles[path] || 'Unknown',
+        path: path
+      }
+    })
+  }, [location.pathname])
+
+  const breadcrumbs = getBreadcrumbItems()
+
   // Add useEffect to update document title
   useEffect(() => {
     const pageTitle = routeTitles[location.pathname] || 'Untitled Page'
@@ -169,20 +185,30 @@ export function Header() {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        <Breadcrumb>
-          <BreadcrumbList className="text-xs">
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/" className="flex items-center">
-                <Home className="h-3 w-3" />
-                <span className="sr-only">Home</span>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator className="mx-1" />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Dashboard</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        {!isLandingPage && (
+          <Breadcrumb>
+            <BreadcrumbList className="text-xs">
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/" className="flex items-center">
+                  <Home className="h-3 w-3" />
+                  <span className="sr-only">Home</span>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              {breadcrumbs.map((item, index) => (
+                <React.Fragment key={item.path}>
+                  <BreadcrumbSeparator className="mx-1" />
+                  <BreadcrumbItem>
+                    {index === breadcrumbs.length - 1 ? (
+                      <BreadcrumbPage>{item.title}</BreadcrumbPage>
+                    ) : (
+                      <BreadcrumbLink href={item.path}>{item.title}</BreadcrumbLink>
+                    )}
+                  </BreadcrumbItem>
+                </React.Fragment>
+              ))}
+            </BreadcrumbList>
+          </Breadcrumb>
+        )}
       </div>
       
       <div className="flex items-center gap-2 max-w-sm w-full">
