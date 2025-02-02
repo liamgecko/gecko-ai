@@ -1,7 +1,8 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
-import { PanelLeft } from "lucide-react"
+import { PanelLeft, ChevronLeft } from "lucide-react"
+import { AnimatePresence, motion } from "framer-motion"
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
@@ -485,15 +486,56 @@ SidebarGroupContent.displayName = "SidebarGroupContent"
 
 const SidebarMenu = React.forwardRef<
   HTMLUListElement,
-  React.ComponentProps<"ul">
->(({ className, ...props }, ref) => (
-  <ul
-    ref={ref}
-    data-sidebar="menu"
-    className={cn("flex w-full min-w-0 flex-col gap-1", className)}
-    {...props}
-  />
-))
+  React.ComponentProps<"ul"> & {
+    currentView?: string | null
+    onViewChange?: (view: string | null) => void
+  }
+>(({ className, currentView, onViewChange, ...props }, ref) => {
+  const [activeView, setActiveView] = React.useState<string | null>(currentView || null)
+  
+  const handleViewChange = (view: string | null) => {
+    setActiveView(view)
+    onViewChange?.(view)
+  }
+
+  return (
+    <AnimatePresence mode="wait">
+      {activeView === null ? (
+        <motion.ul
+          ref={ref}
+          key="main-menu"
+          initial={{ x: "-100%", opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: "-100%", opacity: 0 }}
+          transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+          data-sidebar="menu"
+          className={cn("flex w-full min-w-0 flex-col gap-1", className)}
+          {...props}
+        />
+      ) : (
+        <motion.div
+          key="sub-menu"
+          initial={{ x: "100%", opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: "100%", opacity: 0 }}
+          transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+          className="absolute inset-0 bg-background p-2"
+        >
+          <button
+            onClick={() => handleViewChange(null)}
+            className="mb-2 flex items-center gap-2 text-sm text-muted-foreground"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Back
+          </button>
+          <ul className="flex w-full min-w-0 flex-col gap-1">
+            {props.children}
+          </ul>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+})
 SidebarMenu.displayName = "SidebarMenu"
 
 const SidebarMenuItem = React.forwardRef<
@@ -537,22 +579,31 @@ const SidebarMenuButton = React.forwardRef<
     asChild?: boolean
     isActive?: boolean
     tooltip?: string | React.ComponentProps<typeof TooltipContent>
+    hasSubmenu?: boolean
+    onViewChange?: (view: string) => void
   } & VariantProps<typeof sidebarMenuButtonVariants>
 >(
-  (
-    {
-      asChild = false,
-      isActive = false,
-      variant = "default",
-      size = "default",
-      tooltip,
-      className,
-      ...props
-    },
-    ref
-  ) => {
+  ({
+    asChild = false,
+    isActive = false,
+    variant = "default",
+    size = "default",
+    tooltip,
+    hasSubmenu,
+    onViewChange,
+    className,
+    onClick,
+    ...props
+  }, ref) => {
     const Comp = asChild ? Slot : "button"
     const { isMobile, state } = useSidebar()
+
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      onClick?.(e)
+      if (hasSubmenu && onViewChange) {
+        onViewChange(props.id as string)
+      }
+    }
 
     const button = (
       <Comp
@@ -562,6 +613,7 @@ const SidebarMenuButton = React.forwardRef<
         data-active={isActive}
         className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
         {...props}
+        onClick={handleClick}
       />
     )
 

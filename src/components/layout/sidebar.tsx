@@ -16,7 +16,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { Home, FileText, MessageSquare, ClipboardList, StarOff, CalendarFold, MessageSquareText, Route, PhoneCall, BookUser, SendHorizonal, Inbox, Mail, Settings } from "lucide-react"
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,8 +26,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
+import { AnimatePresence, motion } from "framer-motion"
+import { ArrowLeft } from "lucide-react"
+import React from "react"
 
 const favouriteNav = [
   {
@@ -47,7 +50,7 @@ const favouriteNav = [
 const platformNav = [
   {
     title: "Dashboard",
-    href: "/dashboard",
+    href: "/",
     icon: Home,
   },
   {
@@ -258,10 +261,53 @@ const dataNav = [
       },
   ]
 
+// Move these outside the component
+const MainMenuMotion = motion.div
+const SubMenuMotion = motion.div
+
+const FAVORITES_KEY = 'sidebar:favorites'
+
 export function AppSidebar() {
   const [isAvailable, setIsAvailable] = useState(true)
+  const [currentView, setCurrentView] = useState<string | null>(null)
+  const [selectedSection, setSelectedSection] = useState<any>(null)
+  const [favorites, setFavorites] = useState<Array<{ title: string; href: string }>>([])
   const location = useLocation()
-  const isRootOrDashboard = location.pathname === '/' || location.pathname === '/dashboard'
+  const navigate = useNavigate()
+  const isRootOrDashboard = location.pathname === '/'
+
+  // Listen for changes to favorites in localStorage
+  useEffect(() => {
+    const loadFavorites = () => {
+      const storedFavorites = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]')
+      setFavorites(storedFavorites)
+    }
+
+    // Load initial favorites
+    loadFavorites()
+
+    // Listen for our custom event
+    const handleFavoritesUpdate = () => {
+      loadFavorites()
+    }
+
+    window.addEventListener('favoritesUpdated', handleFavoritesUpdate)
+    window.addEventListener('storage', handleFavoritesUpdate) // Keep this for cross-window sync
+
+    return () => {
+      window.removeEventListener('favoritesUpdated', handleFavoritesUpdate)
+      window.removeEventListener('storage', handleFavoritesUpdate)
+    }
+  }, [])
+
+  const handleMenuClick = (item: any) => {
+    if (item.submenu) {
+      setCurrentView(item.href)
+      setSelectedSection(item)
+    } else {
+      navigate(item.href)
+    }
+  }
 
   return (
     <TooltipProvider>
@@ -272,87 +318,158 @@ export function AppSidebar() {
           </div>
         </SidebarHeader>
 
-        <SidebarContent className="px-2 py-4">
-          {/* Favourites Section */}
-          <div className="space-y-2">
-            <h2 className="px-2 text-[10px] font-mono font-semibold tracking-wide text-gray-400 uppercase">
-              Favourites
-            </h2>
-            <SidebarMenu>
-              {favouriteNav.map((item) => (
-                <SidebarMenuItem key={item.href}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.href} className="flex items-center gap-2 [&:hover_.remove-star]:opacity-100">
-                      <span>{item.title}</span>
-                      <Tooltip delayDuration={0}>
-                        <TooltipTrigger asChild>
-                          <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="remove-star ml-auto h-6 w-6 opacity-0 transition-opacity hover:bg-sidebar-accent"
-                            onClick={(e) => {
-                              e.preventDefault()
-                              console.log('Remove', item.title, 'from favourites')
-                            }}
-                          >
-                            <StarOff className="h-4 w-4 stroke-[1.5]" />
-                            <span className="sr-only">Remove from favourites</span>
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent 
-                          side="right" 
-                          className="bg-white text-gray-800 border-white text-xs font-medium tracking-tight shadow-[0_0_12px_rgba(59,130,246,0.75)]"
+        <SidebarContent className="relative px-2 py-4">
+          <AnimatePresence mode="sync">
+            {currentView === null ? (
+              <MainMenuMotion
+                key="main-menu"
+                initial={{ x: "-100%", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: "-100%", opacity: 0 }}
+                transition={{ 
+                  type: "spring",
+                  bounce: 0,
+                  duration: 0.2,
+                  stiffness: 400,
+                  damping: 30
+                }}
+                className="absolute inset-0 px-2 py-4"
+              >
+                {/* Favourites Section - Only show if there are favorites */}
+                {favorites.length > 0 && (
+                  <div className="space-y-2">
+                    <h2 className="px-2 text-[10px] font-mono font-semibold tracking-wide text-gray-400 uppercase">
+                      Favourites
+                    </h2>
+                    <SidebarMenu>
+                      {favorites.map((item) => (
+                        <SidebarMenuItem key={item.href}>
+                          <SidebarMenuButton asChild>
+                            <a href={item.href} className="flex items-center gap-2 [&:hover_.remove-star]:opacity-100">
+                              <span>{item.title}</span>
+                              <Tooltip delayDuration={0}>
+                                <TooltipTrigger asChild>
+                                  <Button 
+                                    variant="ghost" 
+                                    size="icon" 
+                                    className="remove-star ml-auto h-6 w-6 opacity-0 transition-opacity hover:bg-sidebar-accent"
+                                    onClick={(e) => {
+                                      e.preventDefault()
+                                      e.stopPropagation()
+                                      const newFavorites = favorites.filter(fav => fav.href !== item.href)
+                                      localStorage.setItem(FAVORITES_KEY, JSON.stringify(newFavorites))
+                                      setFavorites(newFavorites)
+                                      // Dispatch the custom event
+                                      window.dispatchEvent(new Event('favoritesUpdated'))
+                                    }}
+                                  >
+                                    <StarOff className="h-4 w-4 stroke-[1.5]" />
+                                    <span className="sr-only">Remove from favourites</span>
+                                  </Button>
+                                </TooltipTrigger>
+                                <TooltipContent 
+                                  side="right" 
+                                  className="bg-white text-gray-800 border-white text-xs font-medium tracking-tight shadow-[0_0_12px_rgba(59,130,246,0.75)]"
+                                >
+                                  <p>Remove from favourites</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </a>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ))}
+                    </SidebarMenu>
+                  </div>
+                )}
+
+                {/* Platform Section */}
+                <div className={cn("space-y-2", favorites.length === 0 ? "mt-0" : "mt-6")}>
+                  <h2 className="px-2 text-[10px] font-mono font-semibold tracking-wide text-gray-400 uppercase">
+                    Platform
+                  </h2>
+                  <SidebarMenu>
+                    {platformNav.map((item) => (
+                      <SidebarMenuItem key={item.href}>
+                        <SidebarMenuButton 
+                          onClick={() => handleMenuClick(item)}
+                          isActive={item.href === location.pathname || (item.href === '/dashboard' && isRootOrDashboard)}
                         >
-                          <p>Remove from favourites</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </div>
+                          <div className="flex items-center gap-2">
+                            <item.icon className="h-4 w-4 stroke-[1.5]" />
+                            <span>{item.title}</span>
+                          </div>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))}
+                  </SidebarMenu>
+                </div>
 
-          {/* Platform Section */}
-          <div className="mt-6 space-y-2">
-            <h2 className="px-2 text-[10px] font-mono font-semibold tracking-wide text-gray-400 uppercase">
-              Platform
-            </h2>
-            <SidebarMenu>
-              {platformNav.map((item) => (
-                <SidebarMenuItem key={item.href}>
-                  <SidebarMenuButton 
-                    asChild
-                    isActive={item.href === '/dashboard' && isRootOrDashboard}
-                  >
-                    <a href={item.href} className="flex items-center gap-2">
-                      <item.icon className="h-4 w-4 stroke-[1.5]" />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </div>
+                {/* Data Section */}
+                <div className="mt-6 space-y-2">
+                  <h2 className="px-2 text-[10px] font-mono font-semibold tracking-wide text-gray-400 uppercase">
+                    Data
+                  </h2>
+                  <SidebarMenu>
+                    {dataNav.map((item) => (
+                      <SidebarMenuItem key={item.href}>
+                        <SidebarMenuButton onClick={() => handleMenuClick(item)}>
+                          <div className="flex items-center gap-2">
+                            <item.icon className="h-4 w-4 stroke-[1.5]" />
+                            <span>{item.title}</span>
+                          </div>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))}
+                  </SidebarMenu>
+                </div>
+              </MainMenuMotion>
+            ) : (
+              <SubMenuMotion
+                key="submenu"
+                initial={{ x: "100%", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: "100%", opacity: 0 }}
+                transition={{ 
+                  type: "spring",
+                  bounce: 0,
+                  duration: 0.2,
+                  stiffness: 400,
+                  damping: 30
+                }}
+                className="absolute inset-0 bg-sidebar px-2 py-4"
+              >
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <Button
+                      onClick={() => setCurrentView(null)}
+                      variant="ghost"
+                      size="icon"
+                      className="h-7 w-7"
+                    >
+                      <ArrowLeft className="h-4 w-4" />
+                      <span className="sr-only">Back</span>
+                    </Button>
+                    <h2 className="font-semibold">
+                      {selectedSection?.title}
+                    </h2>
+                  </div>
 
-          {/* Data Section */}
-          <div className="mt-6 space-y-2">
-            <h2 className="px-2 text-[10px] font-mono font-semibold tracking-wide text-gray-400 uppercase">
-              Data
-            </h2>
-            <SidebarMenu>
-              {dataNav.map((item) => (
-                <SidebarMenuItem key={item.href}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.href} className="flex items-center gap-2">
-                      <item.icon className="h-4 w-4 stroke-[1.5]" />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </div>
+                  <SidebarMenu>
+                    {selectedSection?.submenu?.map((item: any) => (
+                      <SidebarMenuItem key={item.href}>
+                        <SidebarMenuButton asChild>
+                          <a href={item.href} className="flex items-center gap-2">
+                            <item.icon className="h-4 w-4 stroke-[1.5]" />
+                            <span>{item.title}</span>
+                          </a>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))}
+                  </SidebarMenu>
+                </div>
+              </SubMenuMotion>
+            )}
+          </AnimatePresence>
         </SidebarContent>
 
         <SidebarFooter className="border-t border-gray-800">

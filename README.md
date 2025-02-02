@@ -31,7 +31,7 @@ A modern, type-safe dashboard application built with React, TypeScript, and shad
 │   │   └── react.svg
 │   ├── components
 │   │   ├── layout
-│   │   │   ├── root-layout.tsx
+│   │   │   ├── header.tsx
 │   │   │   └── sidebar.tsx
 │   │   └── ui
 │   │       ├── accordion.tsx
