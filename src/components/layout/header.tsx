@@ -25,7 +25,57 @@ const FAVORITES_KEY = 'sidebar:favorites'
 // Add this route title mapping
 const routeTitles: Record<string, string> = {
   '/': 'Dashboard',
-  '/dashboard': 'Dashboard',
+  '/settings': 'Settings',
+  
+  // Account section
+  '/settings/account': 'Account',
+  '/settings/account/settings': 'Account settings',
+  '/settings/account/templates': 'Email and SMS templates',
+  '/settings/account/senders': 'Verified senders and domains',
+  '/settings/account/categories': 'Categories',
+  '/settings/account/tasks': 'Tasks and objectives',
+  
+  // User management section
+  '/settings/users': 'User management',
+  '/settings/users/my-settings': 'My user settings',
+  '/settings/users/list': 'Users',
+  '/settings/users/groups': 'User groups',
+  '/settings/users/devices': 'Mobile devices',
+  
+  // Field management section
+  '/settings/fields': 'Field management',
+  '/settings/fields/contact': 'Contact fields',
+  '/settings/fields/organisation': 'Organisation fields',
+  '/settings/fields/org-types': 'Organisation types',
+  '/settings/fields/options': 'Field options',
+  
+  // Call and SMS section
+  '/settings/communications': 'Call and SMS',
+  '/settings/communications/outcomes': 'Outcomes',
+  '/settings/communications/telephone': 'Telephone numbers',
+  '/settings/communications/voip': 'VoIP numbers',
+  '/settings/communications/usage': 'Usage and costs',
+  '/settings/communications/test-voip': 'Test VoIP connection',
+  
+  // Chat settings section
+  '/settings/chat': 'Chat settings',
+  '/settings/chat/widgets': 'Widgets',
+  '/settings/chat/chatbots': 'Chatbots',
+  '/settings/chat/knowledge-bases': 'Knowledge bases',
+  '/settings/chat/channels': 'Channels',
+  '/settings/chat/teams': 'Teams',
+  '/settings/chat/saved-replies': 'Saved replies',
+  '/settings/chat/workflows': 'Chat workflows',
+  
+  // Data management section
+  '/settings/data': 'Data management',
+  '/settings/data/integrations': 'Integrations',
+  '/settings/data/import': 'Import data',
+  '/settings/data/export': 'Export data',
+  '/settings/data/labels': 'Labels',
+  '/settings/data/security': 'Data security',
+
+  // Keep other existing routes
   '/forms': 'Forms',
   '/forms/create': 'Create Form',
   '/forms/templates': 'Form Templates',
@@ -35,7 +85,6 @@ const routeTitles: Record<string, string> = {
   '/ai': 'AI and Automation',
   '/broadcasts': 'Broadcasts',
   '/calls': 'Calls',
-  '/settings': 'Settings',
   '/contacts': 'Contacts',
   '/responses': 'Responses',
   '/messages': 'Messages',

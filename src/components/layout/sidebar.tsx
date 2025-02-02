@@ -7,6 +7,9 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton,
 } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button"
 import {
@@ -15,7 +18,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { Home, FileText, MessageSquare, ClipboardList, StarOff, CalendarFold, MessageSquareText, Route, PhoneCall, BookUser, SendHorizonal, Inbox, Mail, Settings } from "lucide-react"
+import { Home, FileText, MessageSquare, ClipboardList, StarOff, CalendarFold, MessageSquareText, Route, PhoneCall, BookUser, SendHorizonal, Inbox, Mail, Settings, User, Users, Database, Phone, Globe, ChevronRight } from "lucide-react"
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
   DropdownMenu,
@@ -189,6 +192,176 @@ const platformNav = [
     title: "Settings",
     href: "/settings",
     icon: Settings,
+    submenu: [
+      {
+        title: "Account",
+        href: "/settings/account",
+        icon: User,
+        collapsible: true,
+        items: [
+          {
+            title: "Account settings",
+            href: "/settings/account/settings",
+          },
+          {
+            title: "Email and SMS templates",
+            href: "/settings/account/templates",
+          },
+          {
+            title: "Verified senders and domains",
+            href: "/settings/account/senders",
+          },
+          {
+            title: "Categories",
+            href: "/settings/account/categories",
+          },
+          {
+            title: "Tasks and objectives",
+            href: "/settings/account/tasks",
+          },
+        ]
+      },
+      {
+        title: "User management",
+        href: "/settings/users",
+        icon: Users,
+        collapsible: true,
+        items: [
+          {
+            title: "My user settings",
+            href: "/settings/users/my-settings",
+          },
+          {
+            title: "Users",
+            href: "/settings/users/list",
+          },
+          {
+            title: "User groups",
+            href: "/settings/users/groups",
+          },
+          {
+            title: "Mobile devices",
+            href: "/settings/users/devices",
+          },
+        ]
+      },
+      {
+        title: "Field management",
+        href: "/settings/fields",
+        icon: Database,
+        collapsible: true,
+        items: [
+          {
+            title: "Contact fields",
+            href: "/settings/fields/contact",
+          },
+          {
+            title: "Organisation fields",
+            href: "/settings/fields/organisation",
+          },
+          {
+            title: "Organisation types",
+            href: "/settings/fields/org-types",
+          },
+          {
+            title: "Field options",
+            href: "/settings/fields/options",
+          },
+        ]
+      },
+      {
+        title: "Call and SMS",
+        href: "/settings/communications",
+        icon: Phone,
+        collapsible: true,
+        items: [
+          {
+            title: "Outcomes",
+            href: "/settings/communications/outcomes",
+          },
+          {
+            title: "Telephone numbers",
+            href: "/settings/communications/telephone",
+          },
+          {
+            title: "VoIP numbers",
+            href: "/settings/communications/voip",
+          },
+          {
+            title: "Usage and costs",
+            href: "/settings/communications/usage",
+          },
+          {
+            title: "Test VoIP connection",
+            href: "/settings/communications/test-voip",
+          },
+        ]
+      },
+      {
+        title: "Chat settings",
+        href: "/settings/chat",
+        icon: MessageSquare,
+        collapsible: true,
+        items: [
+          {
+            title: "Widgets",
+            href: "/settings/chat/widgets",
+          },
+          {
+            title: "Chatbots",
+            href: "/settings/chat/chatbots",
+          },
+          {
+            title: "Knowledge bases",
+            href: "/settings/chat/knowledge-bases",
+          },
+          {
+            title: "Channels",
+            href: "/settings/chat/channels",
+          },
+          {
+            title: "Teams",
+            href: "/settings/chat/teams",
+          },
+          {
+            title: "Saved replies",
+            href: "/settings/chat/saved-replies",
+          },
+          {
+            title: "Chat workflows",
+            href: "/settings/chat/workflows",
+          },
+        ]
+      },
+      {
+        title: "Data management",
+        href: "/settings/data",
+        icon: Database,
+        collapsible: true,
+        items: [
+          {
+            title: "Integrations",
+            href: "/settings/data/integrations",
+          },
+          {
+            title: "Import data",
+            href: "/settings/data/import",
+          },
+          {
+            title: "Export data",
+            href: "/settings/data/export",
+          },
+          {
+            title: "Labels",
+            href: "/settings/data/labels",
+          },
+          {
+            title: "Data security",
+            href: "/settings/data/security",
+          },
+        ]
+      },
+    ]
   }
 ]
 
@@ -264,6 +437,7 @@ const dataNav = [
 // Move these outside the component
 const MainMenuMotion = motion.div
 const SubMenuMotion = motion.div
+const CollapsibleMotion = motion.div
 
 const FAVORITES_KEY = 'sidebar:favorites'
 
@@ -275,6 +449,9 @@ export function AppSidebar() {
   const location = useLocation()
   const navigate = useNavigate()
   const isRootOrDashboard = location.pathname === '/'
+
+  // Add this state for tracking which sections are expanded
+  const [expandedSections, setExpandedSections] = useState<string[]>([])
 
   // Listen for changes to favorites in localStorage
   useEffect(() => {
@@ -457,12 +634,85 @@ export function AppSidebar() {
                   <SidebarMenu>
                     {selectedSection?.submenu?.map((item: any) => (
                       <SidebarMenuItem key={item.href}>
-                        <SidebarMenuButton asChild>
-                          <a href={item.href} className="flex items-center gap-2">
+                        <SidebarMenuButton 
+                          onClick={() => {
+                            if (item.collapsible) {
+                              setExpandedSections(prev => 
+                                prev.includes(item.href) 
+                                  ? prev.filter(href => href !== item.href)
+                                  : [...prev, item.href]
+                              )
+                            } else {
+                              navigate(item.href)
+                            }
+                          }}
+                          className="w-full"
+                        >
+                          <div className="flex items-center gap-2 w-full">
                             <item.icon className="h-4 w-4 stroke-[1.5]" />
                             <span>{item.title}</span>
-                          </a>
+                            {item.collapsible && (
+                              <ChevronRight 
+                                className={cn(
+                                  "ml-auto h-4 w-4 transition-transform",
+                                  expandedSections.includes(item.href) && "rotate-90"
+                                )} 
+                              />
+                            )}
+                          </div>
                         </SidebarMenuButton>
+                        
+                        {item.collapsible && (
+                          <AnimatePresence initial={false}>
+                            {expandedSections.includes(item.href) && (
+                              <CollapsibleMotion
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ 
+                                  height: "auto", 
+                                  opacity: 1,
+                                  transition: {
+                                    height: {
+                                      type: "spring",
+                                      bounce: 0,
+                                      duration: 0.3
+                                    },
+                                    opacity: {
+                                      duration: 0.2
+                                    }
+                                  }
+                                }}
+                                exit={{ 
+                                  height: 0, 
+                                  opacity: 0,
+                                  transition: {
+                                    height: {
+                                      type: "spring",
+                                      bounce: 0,
+                                      duration: 0.2
+                                    },
+                                    opacity: {
+                                      duration: 0.2
+                                    }
+                                  }
+                                }}
+                              >
+                                <SidebarMenuSub>
+                                  {item.items.map((subItem: any) => (
+                                    <SidebarMenuSubItem key={subItem.href}>
+                                      <SidebarMenuSubButton
+                                        onClick={() => navigate(subItem.href)}
+                                        isActive={location.pathname === subItem.href}
+                                        className="py-1.5 whitespace-normal text-left"
+                                      >
+                                        {subItem.title}
+                                      </SidebarMenuSubButton>
+                                    </SidebarMenuSubItem>
+                                  ))}
+                                </SidebarMenuSub>
+                              </CollapsibleMotion>
+                            )}
+                          </AnimatePresence>
+                        )}
                       </SidebarMenuItem>
                     ))}
                   </SidebarMenu>
