@@ -179,7 +179,7 @@ export function Header() {
             </TooltipTrigger>
             <TooltipContent 
               side="bottom" 
-              className="bg-white text-gray-800 border-white text-xs font-medium tracking-tight shadow-[0_0_12px_rgba(59,130,246,0.75)]"
+              className="bg-white text-gray-800 border-white text-xs font-medium tracking-tight shadow-[0_0_12px_rgba(0,0,0,0.2)] dark:shadow-[0_0_12px_rgba(59,130,246,0.75)]"
             >
               <p>{isOpen ? 'Hide sidebar' : 'Show sidebar'}</p>
             </TooltipContent>
@@ -229,18 +229,18 @@ export function Header() {
             </TooltipTrigger>
             <TooltipContent 
               side="bottom" 
-              className="bg-white text-gray-800 border-white text-xs font-medium tracking-tight shadow-[0_0_12px_rgba(59,130,246,0.75)]"
+              className="bg-white text-gray-800 border-white text-xs font-medium tracking-tight shadow-[0_0_12px_rgba(0,0,0,0.2)] dark:shadow-[0_0_12px_rgba(59,130,246,0.75)]"
             >
               <p>{isFavorited ? 'Remove from favourites' : 'Add to favourites'}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
         <div className="relative w-full group">
-          <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-white" />
+          <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 dark:text-white text-gray-900" />
           <Input 
             type="text"
             placeholder="Search..."
-            className="w-full pl-8 pr-16 transition-all duration-300 border-border hover:border-transparent focus:border-transparent focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none"
+            className="w-full pl-8 pr-16 transition-all duration-300 border-border hover:border-transparent focus:border-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
             style={{
               backgroundImage: 'linear-gradient(to right, hsl(var(--background)), hsl(var(--background))), linear-gradient(to right, #38bdf8, #1d4ed8)',
               backgroundOrigin: 'border-box',

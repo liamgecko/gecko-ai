@@ -11,8 +11,6 @@ import {
 import { useChat } from 'ai/react'
 import {
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
   ChartLegend,
   ChartLegendContent,
 } from "@/components/ui/chart"
@@ -94,9 +92,6 @@ const ChartComponent = ({ type, data, config }: {
             dataKey="value"
             strokeWidth={2}
           />
-          <ChartTooltip>
-            <ChartTooltipContent />
-          </ChartTooltip>
           <ChartLegend>
             <ChartLegendContent />
           </ChartLegend>
@@ -111,9 +106,6 @@ const ChartComponent = ({ type, data, config }: {
         <Bar
           dataKey="value"
         />
-        <ChartTooltip>
-          <ChartTooltipContent />
-        </ChartTooltip>
         <ChartLegend>
           <ChartLegendContent />
         </ChartLegend>
@@ -271,7 +263,7 @@ export function DashboardPage() {
                         {renderMessage(message)}
                       </div>
                     ) : (
-                      <div className="text-base p-3 bg-gray-900 rounded">
+                      <div className="text-base p-3 dark:bg-gray-900 bg-slate-200 rounded">
                         {message.content}
                       </div>
                     )}
@@ -290,16 +282,12 @@ export function DashboardPage() {
                 <textarea
                   value={input}
                   onChange={handleInputChange}
+                  placeholder="Message Gecko"
                   className="w-full bg-transparent focus:outline-none resize-none overflow-y-auto px-4 pt-4 pb-12 rounded text-base"
                   style={{
                     height: '106px',
                   }}
                 />
-                {!input && (
-                  <div className="absolute pointer-events-none top-4 left-4">
-                    <PlaceholderText />
-                  </div>
-                )}
                 <div className="absolute right-0 bottom-0 left-0">
                   <div className="flex justify-between items-center p-2">
                     <div>

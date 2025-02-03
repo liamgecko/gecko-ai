@@ -18,7 +18,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { Home, FileText, MessageSquare, ClipboardList, StarOff, CalendarFold, MessageSquareText, Route, PhoneCall, BookUser, SendHorizonal, Inbox, Mail, Settings, User, Users, Database, Phone, ArrowLeft, ChevronRight } from "lucide-react"
+import { Home, MessageSquare, ClipboardList, StarOff, CalendarFold, MessageSquareText, Route, PhoneCall, BookUser, SendHorizonal, Inbox, Mail, Settings, User, Users, Database, Phone, ArrowLeft, ChevronRight } from "lucide-react"
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
   DropdownMenu,
@@ -37,7 +37,7 @@ import { AnimatePresence, motion } from "framer-motion"
 interface NavItem {
   title: string;
   href: string;
-  icon: React.ElementType;
+  icon?: React.ElementType;
   submenu?: NavItem[];
   collapsible?: boolean;
   items?: NavItem[];
@@ -55,9 +55,9 @@ const platformNav: NavItem[] = [
     href: "/forms",
     icon: ClipboardList,
     submenu: [
-      { title: "Create Form", href: "/forms/create", icon: FileText },
-      { title: "Form Templates", href: "/forms/templates", icon: ClipboardList },
-      { title: "Form Responses", href: "/forms/responses", icon: MessageSquare },
+      { title: "Create Form", href: "/forms/create" },
+      { title: "Form Templates", href: "/forms/templates"},
+      { title: "Form Responses", href: "/forms/responses" },
     ],
   },
   {
@@ -65,9 +65,9 @@ const platformNav: NavItem[] = [
     href: "/events",
     icon: CalendarFold,
     submenu: [
-      { title: "Create Form", href: "/forms/create", icon: FileText },
-      { title: "Form Templates", href: "/forms/templates", icon: ClipboardList },
-      { title: "Form Responses", href: "/forms/responses", icon: MessageSquare },
+      { title: "Create Form", href: "/forms/create", },
+      { title: "Form Templates", href: "/forms/templates" },
+      { title: "Form Responses", href: "/forms/responses" },
     ],
   },
   {
@@ -75,9 +75,9 @@ const platformNav: NavItem[] = [
     href: "/conversations",
     icon: MessageSquareText,
     submenu: [
-      { title: "Create Form", href: "/forms/create", icon: FileText },
-      { title: "Form Templates", href: "/forms/templates", icon: ClipboardList },
-      { title: "Form Responses", href: "/forms/responses", icon: MessageSquare },
+      { title: "Create Form", href: "/forms/create" },
+      { title: "Form Templates", href: "/forms/templates"},
+      { title: "Form Responses", href: "/forms/responses" },
     ],
   },
   {
@@ -85,9 +85,9 @@ const platformNav: NavItem[] = [
     href: "/ai",
     icon: Route,
     submenu: [
-      { title: "Create Form", href: "/forms/create", icon: FileText },
-      { title: "Form Templates", href: "/forms/templates", icon: ClipboardList },
-      { title: "Form Responses", href: "/forms/responses", icon: MessageSquare },
+      { title: "Create Form", href: "/forms/create"},
+      { title: "Form Templates", href: "/forms/templates" },
+      { title: "Form Responses", href: "/forms/responses" },
     ],
   },
   {
@@ -95,9 +95,9 @@ const platformNav: NavItem[] = [
     href: "/broadcasts",
     icon: SendHorizonal,
     submenu: [
-      { title: "Create Form", href: "/forms/create", icon: FileText },
-      { title: "Form Templates", href: "/forms/templates", icon: ClipboardList },
-      { title: "Form Responses", href: "/forms/responses", icon: MessageSquare },
+      { title: "Create Form", href: "/forms/create" },
+      { title: "Form Templates", href: "/forms/templates" },
+      { title: "Form Responses", href: "/forms/responses"},
     ],
   },
   {
@@ -105,9 +105,9 @@ const platformNav: NavItem[] = [
     href: "/calls",
     icon: PhoneCall,
     submenu: [
-      { title: "Create Form", href: "/forms/create", icon: FileText },
-      { title: "Form Templates", href: "/forms/templates", icon: ClipboardList },
-      { title: "Form Responses", href: "/forms/responses", icon: MessageSquare },
+      { title: "Create Form", href: "/forms/create" },
+      { title: "Form Templates", href: "/forms/templates",},
+      { title: "Form Responses", href: "/forms/responses" },
     ],
   },
   {
@@ -203,9 +203,9 @@ const dataNav: NavItem[] = [
     href: "/contacts",
     icon: BookUser,
     submenu: [
-      { title: "Create Form", href: "/forms/create", icon: FileText },
-      { title: "Form Templates", href: "/forms/templates", icon: ClipboardList },
-      { title: "Form Responses", href: "/forms/responses", icon: MessageSquare },
+      { title: "Create Form", href: "/forms/create" },
+      { title: "Form Templates", href: "/forms/templates" },
+      { title: "Form Responses", href: "/forms/responses" },
     ],
   },
   {
@@ -213,9 +213,9 @@ const dataNav: NavItem[] = [
     href: "/responses",
     icon: Inbox,
     submenu: [
-      { title: "Create Form", href: "/forms/create", icon: FileText },
-      { title: "Form Templates", href: "/forms/templates", icon: ClipboardList },
-      { title: "Form Responses", href: "/forms/responses", icon: MessageSquare },
+      { title: "Create Form", href: "/forms/create"},
+      { title: "Form Templates", href: "/forms/templates"},
+      { title: "Form Responses", href: "/forms/responses"},
     ],
   },
   {
@@ -223,9 +223,9 @@ const dataNav: NavItem[] = [
     href: "/messages",
     icon: Mail,
     submenu: [
-      { title: "Create Form", href: "/forms/create", icon: FileText },
-      { title: "Form Templates", href: "/forms/templates", icon: ClipboardList },
-      { title: "Form Responses", href: "/forms/responses", icon: MessageSquare },
+      { title: "Create Form", href: "/forms/create" },
+      { title: "Form Templates", href: "/forms/templates" },
+      { title: "Form Responses", href: "/forms/responses" },
     ],
   },
 ];
@@ -236,6 +236,18 @@ const SubMenuMotion = motion.div
 const CollapsibleMotion = motion.div
 
 const FAVORITES_KEY = 'sidebar:favorites'
+
+// Function to toggle the theme class on the <html> element
+function toggleHtmlTheme() {
+  const htmlElement = document.documentElement;
+  if (htmlElement.classList.contains('dark')) {
+    htmlElement.classList.remove('dark');
+    htmlElement.classList.add('light');
+  } else {
+    htmlElement.classList.remove('light');
+    htmlElement.classList.add('dark');
+  }
+}
 
 export function AppSidebar() {
   const [isAvailable, setIsAvailable] = useState(true)
@@ -282,10 +294,31 @@ export function AppSidebar() {
     }
   }
 
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  useEffect(() => {
+    // Initialize the theme based on the current class on the <html> element
+    const htmlElement = document.documentElement;
+    setIsDarkMode(htmlElement.classList.contains('dark'));
+  }, []);
+
+  const toggleHtmlTheme = () => {
+    const htmlElement = document.documentElement;
+    if (htmlElement.classList.contains('dark')) {
+      htmlElement.classList.remove('dark');
+      htmlElement.classList.add('light');
+      setIsDarkMode(false);
+    } else {
+      htmlElement.classList.remove('light');
+      htmlElement.classList.add('dark');
+      setIsDarkMode(true);
+    }
+  };
+
   return (
     <TooltipProvider>
       <Sidebar className="bg-sidebar border-r border-gray-800">
-        <SidebarHeader className="border-b border-gray-800 px-4 py-4">
+        <SidebarHeader className="border-b dark:border-gray-800 border-white/20 px-4 py-4">
           <div className="flex items-center gap-2">
             <img src="/logo-full.svg" alt="Logo" className="w-20" />
           </div>
@@ -325,7 +358,7 @@ export function AppSidebar() {
                                   <Button 
                                     variant="ghost" 
                                     size="icon" 
-                                    className="remove-star ml-auto h-6 w-6 opacity-0 transition-opacity hover:bg-sidebar-accent"
+                                    className="remove-star ml-auto h-6 w-6 opacity-0 transition-opacity hover:bg-sidebar-button-accent hover:text-sidebar-button-accent-foreground"
                                     onClick={(e) => {
                                       e.preventDefault()
                                       e.stopPropagation()
@@ -342,7 +375,7 @@ export function AppSidebar() {
                                 </TooltipTrigger>
                                 <TooltipContent 
                                   side="right" 
-                                  className="bg-white text-gray-800 border-white text-xs font-medium tracking-tight shadow-[0_0_12px_rgba(59,130,246,0.75)]"
+                                  className="bg-white text-gray-800 border-white text-xs font-medium tracking-tight shadow-[0_0_12px_rgba(0,0,0,0.2)] dark:shadow-[0_0_12px_rgba(59,130,246,0.75)]"
                                 >
                                   <p>Remove from favourites</p>
                                 </TooltipContent>
@@ -368,7 +401,7 @@ export function AppSidebar() {
                           isActive={item.href === location.pathname || (item.href === '/dashboard' && isRootOrDashboard)}
                         >
                           <div className="flex items-center gap-2">
-                            <item.icon className="h-4 w-4 stroke-[1.5]" />
+                            {item.icon && <item.icon className="h-4 w-4 stroke-[1.5]" />}
                             <span>{item.title}</span>
                           </div>
                         </SidebarMenuButton>
@@ -387,7 +420,7 @@ export function AppSidebar() {
                       <SidebarMenuItem key={item.href}>
                         <SidebarMenuButton onClick={() => handleMenuClick(item)}>
                           <div className="flex items-center gap-2">
-                            <item.icon className="h-4 w-4 stroke-[1.5]" />
+                            {item.icon && <item.icon className="h-4 w-4 stroke-[1.5]" />}
                             <span>{item.title}</span>
                           </div>
                         </SidebarMenuButton>
@@ -445,7 +478,7 @@ export function AppSidebar() {
                           className="w-full"
                         >
                           <div className="flex items-center gap-2 w-full">
-                            <item.icon className="h-4 w-4 stroke-[1.5]" />
+                            {item.icon && <item.icon className="h-4 w-4 stroke-[1.5]" />}
                             <span>{item.title}</span>
                             {item.collapsible && (
                               <ChevronRight 
@@ -518,14 +551,14 @@ export function AppSidebar() {
           </AnimatePresence>
         </SidebarContent>
 
-        <SidebarFooter className="border-t border-gray-800">
+        <SidebarFooter className="border-t dark:border-gray-800 border-white/20">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="flex items-center gap-3 cursor-pointer rounded-md p-2 hover:bg-sidebar-accent">
                 <div className="relative">
                   <Avatar className="h-9 w-9">
                     <AvatarImage src="/avatar.png" alt="User" />
-                    <AvatarFallback>LY</AvatarFallback>
+                    <AvatarFallback className="text-gray-900">LY</AvatarFallback>
                   </Avatar>
                   <span className={cn(
                     "absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border border-white",
@@ -533,8 +566,8 @@ export function AppSidebar() {
                   )} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-medium text-sm">Liam Young</span>
-                  <span className="text-xs text-muted-foreground">liam@geckoengage.com</span>
+                  <span className="font-medium text-sm text-white">Liam Young</span>
+                  <span className="text-xs text-gray-400">liam@geckoengage.com</span>
                 </div>
               </div>
             </DropdownMenuTrigger>
@@ -571,6 +604,9 @@ export function AppSidebar() {
               </DropdownMenuItem>
               <DropdownMenuItem className="text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-100 dark:hover:text-gray-900 cursor-pointer ">
                 Suggest a feature
+              </DropdownMenuItem>
+              <DropdownMenuItem className="text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-100 dark:hover:text-gray-900 cursor-pointer " onClick={toggleHtmlTheme}>
+                Switch to {isDarkMode ? 'light' : 'dark'} mode
               </DropdownMenuItem>
               <DropdownMenuSeparator className="bg-gray-200" />
               <DropdownMenuItem className="text-red-500 hover:bg-red-50 dark:hover:bg-red-50 dark:hover:text-red-600 cursor-pointer">

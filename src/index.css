@@ -13,7 +13,7 @@
     font-size: 14px !important;
   }
   :root {
-    --background: 0 0% 100%;
+    --background: 210 20% 98%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 224 71.4% 4.1%;
@@ -37,15 +37,15 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem
-  ;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
+    --radius: 0.5rem;
+    --sidebar-background: 226 58% 15%;
+    --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 240 5.9% 10%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 5.9% 10%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
+    --sidebar-accent: 0 0% 100% / 5%;
+    --sidebar-button-accent-foreground: 0 0% 100%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 100% / 10%;
     --sidebar-ring: 217.2 91.2% 59.8%;
     --sidebar: 222 47% 11%;
   }
@@ -73,8 +73,7 @@
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%
-  ;
+    --chart-5: 340 75% 55%;
     --sidebar-background: 224 71% 4%;
     --sidebar-foreground: 214 32% 91%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -97,7 +96,8 @@
   body {
     @apply bg-background text-foreground;
   }
-  /* body.menu-collapsed .app-body { 
-    width: 100vw;
-  } */
+  input:focus-visible {
+    box-shadow: none !important;
+    outline: none !important;
+  }
 }
