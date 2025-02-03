@@ -450,7 +450,7 @@ export function AppSidebar() {
                       onClick={() => setCurrentView(null)}
                       variant="ghost"
                       size="icon"
-                      className="h-7 w-7"
+                      className="h-7 w-7 text-white hover:text-white hover:bg-white/10"
                     >
                       <ArrowLeft className="h-4 w-4" />
                       <span className="sr-only">Back</span>

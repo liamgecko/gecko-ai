@@ -91,7 +91,7 @@ const routeTitles: Record<string, string> = {
   '/messages': 'Messages',
 }
 
-export function Header() {
+export function Header({ onSearchClick }: { onSearchClick: () => void }) {
   const { state } = useSidebar()
   const isOpen = state === "expanded"
   const location = useLocation()
@@ -246,6 +246,7 @@ export function Header() {
               backgroundOrigin: 'border-box',
               backgroundClip: 'padding-box, border-box',
             }}
+            onFocus={onSearchClick}
           />
         </div>
       </div>
