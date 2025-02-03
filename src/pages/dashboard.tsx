@@ -149,7 +149,7 @@ export function DashboardPage() {
         {messages.length > 0 && (
           <div className="flex flex-col w-full mt-4">
             {messages.map((message, index) => (
-              <div key={index} className={`mb-2 ${index % 2 === 0 ? 'bg-blue-500 text-white p-2 rounded-lg max-w-fit' : ''}`}>
+              <div key={index} className={`mb-3 ${index % 2 === 0 ? 'bg-gray-900 text-gray-100 p-2 rounded-lg max-w-fit' : ''}`}>
                 {message}
               </div>
             ))}
