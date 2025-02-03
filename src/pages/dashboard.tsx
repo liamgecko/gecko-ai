@@ -78,6 +78,7 @@ export function DashboardPage() {
   const [messages, setMessages] = useState<string[]>([])
   const [showOptions, setShowOptions] = useState(true)
   const [showChart, setShowChart] = useState(false)
+  const [aiMessage, setAiMessage] = useState('')
 
   const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTextareaValue(event.target.value)
@@ -90,14 +91,25 @@ export function DashboardPage() {
       setTextareaValue('')
 
       setTimeout(() => {
-        setShowChart(true)
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          "Here is the data you requested:",
-        ])
+        streamAiMessage("Here is the data you requested:")
       }, 1000)
       setShowOptions(false)
     }
+  }
+
+  const streamAiMessage = (message: string) => {
+    let index = 0
+    setAiMessage('')
+
+    const interval = setInterval(() => {
+      if (index < message.length) {
+        setAiMessage((prev) => prev + message[index])
+        index++
+      } else {
+        clearInterval(interval)
+        setShowChart(true)
+      }
+    }, 100)
   }
 
   return (
@@ -147,16 +159,21 @@ export function DashboardPage() {
           </div>
         )}
         {messages.length > 0 && (
-          <div className="flex flex-col w-full mt-4">
+          <div className="flex flex-col w-full">
             {messages.map((message, index) => (
               <div key={index} className={`mb-3 ${index % 2 === 0 ? 'bg-gray-900 text-gray-100 p-2 rounded-lg max-w-fit' : ''}`}>
                 {message}
               </div>
             ))}
+            {aiMessage && (
+              <div className="mb-3">
+                {aiMessage}
+              </div>
+            )}
           </div>
         )}
         {showChart && (
-          <div className="flex flex-col w-full mt-4">
+          <div className="flex flex-col w-full">
             <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
               <BarChart data={chartData}>
                 <CartesianGrid vertical={false} />
