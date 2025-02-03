@@ -11,10 +11,10 @@ import {
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from "@/components/ui/chart"
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 
-function PlaceholderText() {
+function PlaceholderText({ message }: { message: string }) {
   return (
     <div className='inline-flex items-center whitespace-pre-wrap text-base text-muted-foreground'>
-      I can help you{' '}
+      {message}{' '}
       <TextLoop
         className='overflow-y-clip'
         transition={{
@@ -79,6 +79,7 @@ export function DashboardPage() {
   const [showOptions, setShowOptions] = useState(true)
   const [showChart, setShowChart] = useState(false)
   const [aiMessage, setAiMessage] = useState('')
+  const [messageSent, setMessageSent] = useState(false)
 
   const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTextareaValue(event.target.value)
@@ -89,6 +90,7 @@ export function DashboardPage() {
     if (textareaValue.trim() !== '') {
       setMessages((prevMessages) => [...prevMessages, textareaValue])
       setTextareaValue('')
+      setMessageSent(true)
 
       setTimeout(() => {
         streamAiMessage("Here is the data you requested:")
@@ -210,9 +212,14 @@ export function DashboardPage() {
                 height: '106px',
               }}
             />
-            {textareaValue === '' && (
+            {textareaValue === '' && !messageSent && (
               <div className="absolute pointer-events-none top-4 left-4">
-                <PlaceholderText />
+                <PlaceholderText message="Let us help you" />
+              </div>
+            )}
+            {textareaValue === '' && messageSent && (
+              <div className="absolute pointer-events-none top-4 left-4">
+                <span className="text-muted-foreground">Message Gecko</span>
               </div>
             )}
             <div className="absolute right-0 bottom-0 left-0">
