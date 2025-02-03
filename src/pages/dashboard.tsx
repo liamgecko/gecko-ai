@@ -105,27 +105,30 @@ export function DashboardPage() {
   }
 
   const streamAiMessage = (message: string) => {
-    let index = 0
-    setAiMessage('')
+    setAiMessage(''); // Clear previous AI message
 
-    const interval = setInterval(() => {
-      if (index < message.length) {
-        setAiMessage((prev) => prev + message[index])
-        index++
-      } else {
-        clearInterval(interval)
-        setShowChart(true)
-      }
-    }, 100)
-  }
+    // Introduce a 1-second delay before starting to stream the message
+    setTimeout(() => {
+      let index = 0;
+
+      const interval = setInterval(() => {
+        if (index < message.length) {
+          setAiMessage((prev) => prev + message[index]);
+          index++;
+        } else {
+          clearInterval(interval);
+          setShowChart(true); // Show chart after the message is fully displayed
+        }
+      }, 100);
+    }, 1000); // 1-second delay
+  };
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-1 flex flex-col items-center justify-center max-w-3xl mx-auto w-full">
         <AnimatePresence onExitComplete={() => setShowChatBubble(true)}>
           {showDefaultView && (
             <motion.div
-              className="flex flex-col items-center"
+              className="flex-1 flex flex-col items-center justify-center max-w-3xl mx-auto w-full"
               initial={{ opacity: 0, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -100 }}
@@ -185,7 +188,7 @@ export function DashboardPage() {
 
         {showChatBubble && messages.length > 0 && (
           <motion.div
-            className="flex flex-col w-full"
+            className="max-w-3xl mx-auto w-full my-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
@@ -220,7 +223,7 @@ export function DashboardPage() {
 
         {showChart && (
           <motion.div
-            className="flex flex-col w-full"
+            className="max-w-3xl mx-auto w-full my-4"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
@@ -243,7 +246,6 @@ export function DashboardPage() {
             </ChartContainer>
           </motion.div>
         )}
-      </div>
 
       <div className="max-w-3xl mx-auto w-full my-4">
         <form
