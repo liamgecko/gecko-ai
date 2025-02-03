@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Forward, Paperclip } from "lucide-react"
 import { TextLoop } from "@/components/ui/text-loop"
 import {
@@ -80,6 +81,8 @@ export function DashboardPage() {
   const [showChart, setShowChart] = useState(false)
   const [aiMessage, setAiMessage] = useState('')
   const [messageSent, setMessageSent] = useState(false)
+  const [showDefaultView, setShowDefaultView] = useState(true)
+  const [showChatBubble, setShowChatBubble] = useState(false)
 
   const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTextareaValue(event.target.value)
@@ -92,10 +95,12 @@ export function DashboardPage() {
       setTextareaValue('')
       setMessageSent(true)
 
+      setShowOptions(false)
+      setShowDefaultView(false)
+
       setTimeout(() => {
         streamAiMessage("Here is the data you requested:")
       }, 1000)
-      setShowOptions(false)
     }
   }
 
@@ -117,65 +122,109 @@ export function DashboardPage() {
   return (
     <div className="flex flex-col h-full">
       <div className="flex-1 flex flex-col items-center justify-center max-w-3xl mx-auto w-full">
-        {messages.length === 0 && (
-          <h1 className="text-4xl font-bold mb-8">What can we help with today, Liam?</h1>
-        )}
-        {showOptions && messages.length === 0 && (
-          <div className="grid grid-cols-2 gap-4 w-full">
-            <div className="rounded-lg border border-gray-300 dark:border-gray-700 bg-card p-6 cursor-pointer transition-all hover:border-transparent dark:hover:border-transparent relative"
-              style={{
-                backgroundImage: 'linear-gradient(to right, hsl(var(--background)), hsl(var(--background))), linear-gradient(to right, #38bdf8, #1d4ed8)',
-                backgroundOrigin: 'border-box',
-                backgroundClip: 'padding-box, border-box',
-              }}>
-              <h2 className="text-sm font-semibold">Create a form</h2>
-              <p className="text-muted-foreground text-sm">Generate powerful forms to collect student data.</p>
-            </div>
-            <div className="rounded-lg border border-gray-300 dark:border-gray-700 bg-card p-6 cursor-pointer transition-all hover:border-transparent dark:hover:border-transparent relative"
-              style={{
-                backgroundImage: 'linear-gradient(to right, hsl(var(--background)), hsl(var(--background))), linear-gradient(to right, #38bdf8, #1d4ed8)',
-                backgroundOrigin: 'border-box',
-                backgroundClip: 'padding-box, border-box',
-              }}>
-              <h2 className="text-sm font-semibold">Create an event</h2>
-              <p className="text-muted-foreground text-sm">Attract students to your Open Day.</p>
-            </div>
-            <div className="rounded-lg border border-gray-300 dark:border-gray-700 bg-card p-6 cursor-pointer transition-all hover:border-transparent dark:hover:border-transparent relative"
-              style={{
-                backgroundImage: 'linear-gradient(to right, hsl(var(--background)), hsl(var(--background))), linear-gradient(to right, #38bdf8, #1d4ed8)',
-                backgroundOrigin: 'border-box',
-                backgroundClip: 'padding-box, border-box',
-              }}>
-              <h2 className="text-sm font-semibold">Create a new email template</h2>
-              <p className="text-muted-foreground text-sm">Improve admissions with tailored content.</p>
-            </div>
-            <div className="rounded-lg border border-gray-300 dark:border-gray-700 bg-card p-6 cursor-pointer transition-all hover:border-transparent dark:hover:border-transparent relative"
-              style={{
-                backgroundImage: 'linear-gradient(to right, hsl(var(--background)), hsl(var(--background))), linear-gradient(to right, #38bdf8, #1d4ed8)',
-                backgroundOrigin: 'border-box',
-                backgroundClip: 'padding-box, border-box',
-              }}>
-              <h2 className="text-sm font-semibold">Report on conversations</h2>
-              <p className="text-muted-foreground text-sm">See how performant your chat account is.</p>
-            </div>
-          </div>
-        )}
-        {messages.length > 0 && (
-          <div className="flex flex-col w-full">
+        <AnimatePresence onExitComplete={() => setShowChatBubble(true)}>
+          {showDefaultView && (
+            <motion.div
+              className="flex flex-col items-center"
+              initial={{ opacity: 0, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -100 }}
+              transition={{ duration: 0.5 }}
+            >
+              <h1 className="text-4xl font-bold mb-8">
+                What can we help with today, Liam?
+              </h1>
+
+              {showOptions && (
+                <div className="grid grid-cols-2 gap-4 w-full">
+                  <div className="rounded-lg border border-gray-300 dark:border-gray-700 bg-card p-6 cursor-pointer transition-all hover:border-transparent dark:hover:border-transparent relative"
+                    style={{
+                      backgroundImage:
+                        'linear-gradient(to right, hsl(var(--background)), hsl(var(--background))), linear-gradient(to right, #38bdf8, #1d4ed8)',
+                      backgroundOrigin: 'border-box',
+                      backgroundClip: 'padding-box, border-box',
+                    }}>
+                    <h2 className="text-sm font-semibold">Create a form</h2>
+                    <p className="text-muted-foreground text-sm">Generate powerful forms to collect student data.</p>
+                  </div>
+                  <div className="rounded-lg border border-gray-300 dark:border-gray-700 bg-card p-6 cursor-pointer transition-all hover:border-transparent dark:hover:border-transparent relative"
+                    style={{
+                      backgroundImage:
+                        'linear-gradient(to right, hsl(var(--background)), hsl(var(--background))), linear-gradient(to right, #38bdf8, #1d4ed8)',
+                      backgroundOrigin: 'border-box',
+                      backgroundClip: 'padding-box, border-box',
+                    }}>
+                    <h2 className="text-sm font-semibold">Create an event</h2>
+                    <p className="text-muted-foreground text-sm">Attract students to your Open Day.</p>
+                  </div>
+                  <div className="rounded-lg border border-gray-300 dark:border-gray-700 bg-card p-6 cursor-pointer transition-all hover:border-transparent dark:hover:border-transparent relative"
+                    style={{
+                      backgroundImage:
+                        'linear-gradient(to right, hsl(var(--background)), hsl(var(--background))), linear-gradient(to right, #38bdf8, #1d4ed8)',
+                      backgroundOrigin: 'border-box',
+                      backgroundClip: 'padding-box, border-box',
+                    }}>
+                    <h2 className="text-sm font-semibold">Create a new email template</h2>
+                    <p className="text-muted-foreground text-sm">Improve admissions with tailored content.</p>
+                  </div>
+                  <div className="rounded-lg border border-gray-300 dark:border-gray-700 bg-card p-6 cursor-pointer transition-all hover:border-transparent dark:hover:border-transparent relative"
+                    style={{
+                      backgroundImage:
+                        'linear-gradient(to right, hsl(var(--background)), hsl(var(--background))), linear-gradient(to right, #38bdf8, #1d4ed8)',
+                      backgroundOrigin: 'border-box',
+                      backgroundClip: 'padding-box, border-box',
+                    }}>
+                    <h2 className="text-sm font-semibold">Report on conversations</h2>
+                    <p className="text-muted-foreground text-sm">See how performant your chat account is.</p>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {showChatBubble && messages.length > 0 && (
+          <motion.div
+            className="flex flex-col w-full"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
             {messages.map((message, index) => (
-              <div key={index} className={`mb-3 ${index % 2 === 0 ? 'dark:bg-gray-800 bg-gray-200 dark:text-gray-100 text-gray-900 p-2 rounded-lg max-w-fit' : ''}`}>
+              <motion.div
+                key={index}
+                className={`mb-3 ${
+                  index % 2 === 0
+                    ? 'dark:bg-gray-800 bg-gray-200 dark:text-gray-100 text-gray-900 p-2 rounded-lg max-w-fit'
+                    : ''
+                }`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+              >
                 {message}
-              </div>
+              </motion.div>
             ))}
             {aiMessage && (
-              <div className="mb-3">
+              <motion.div
+                className="mb-3"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+              >
                 {aiMessage}
-              </div>
+              </motion.div>
             )}
-          </div>
+          </motion.div>
         )}
+
         {showChart && (
-          <div className="flex flex-col w-full">
+          <motion.div
+            className="flex flex-col w-full"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
             <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
               <BarChart data={chartData}>
                 <CartesianGrid vertical={false} />
@@ -192,17 +241,21 @@ export function DashboardPage() {
                 <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
               </BarChart>
             </ChartContainer>
-          </div>
+          </motion.div>
         )}
       </div>
 
       <div className="max-w-3xl mx-auto w-full my-4">
-        <form className="rounded-lg border border-transparent relative" onSubmit={handleSendMessage}
+        <form
+          className="rounded-lg border border-transparent relative"
+          onSubmit={handleSendMessage}
           style={{
-            backgroundImage: 'linear-gradient(to right, hsl(var(--background)), hsl(var(--background))), linear-gradient(to right, #38bdf8, #1d4ed8)',
+            backgroundImage:
+              'linear-gradient(to right, hsl(var(--background)), hsl(var(--background))), linear-gradient(to right, #38bdf8, #1d4ed8)',
             backgroundOrigin: 'border-box',
             backgroundClip: 'padding-box, border-box',
-          }}>
+          }}
+        >
           <div className="relative">
             <textarea
               value={textareaValue}
