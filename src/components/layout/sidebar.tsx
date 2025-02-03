@@ -609,7 +609,7 @@ export function AppSidebar() {
                 Switch to {isDarkMode ? 'light' : 'dark'} mode
               </DropdownMenuItem>
               <DropdownMenuSeparator className="bg-gray-200" />
-              <DropdownMenuItem className="text-red-500 hover:bg-red-50 dark:hover:bg-red-50 dark:hover:text-red-600 cursor-pointer">
+              <DropdownMenuItem className="text-red-700 hover:bg-red-50 dark:hover:bg-red-50 dark:hover:text-red-600 cursor-pointer">
                 Logout
               </DropdownMenuItem>
             </DropdownMenuContent>

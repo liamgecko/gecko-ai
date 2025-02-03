@@ -122,7 +122,7 @@ export function DashboardPage() {
         )}
         {showOptions && messages.length === 0 && (
           <div className="grid grid-cols-2 gap-4 w-full">
-            <div className="rounded-lg border bg-card p-6 cursor-pointer transition-all hover:border-transparent relative"
+            <div className="rounded-lg border border-gray-300 dark:border-gray-700 bg-card p-6 cursor-pointer transition-all hover:border-transparent dark:hover:border-transparent relative"
               style={{
                 backgroundImage: 'linear-gradient(to right, hsl(var(--background)), hsl(var(--background))), linear-gradient(to right, #38bdf8, #1d4ed8)',
                 backgroundOrigin: 'border-box',
@@ -131,7 +131,7 @@ export function DashboardPage() {
               <h2 className="text-sm font-semibold">Create a form</h2>
               <p className="text-muted-foreground text-sm">Generate powerful forms to collect student data.</p>
             </div>
-            <div className="rounded-lg border bg-card p-6 cursor-pointer transition-all hover:border-transparent relative"
+            <div className="rounded-lg border border-gray-300 dark:border-gray-700 bg-card p-6 cursor-pointer transition-all hover:border-transparent dark:hover:border-transparent relative"
               style={{
                 backgroundImage: 'linear-gradient(to right, hsl(var(--background)), hsl(var(--background))), linear-gradient(to right, #38bdf8, #1d4ed8)',
                 backgroundOrigin: 'border-box',
@@ -140,7 +140,7 @@ export function DashboardPage() {
               <h2 className="text-sm font-semibold">Create an event</h2>
               <p className="text-muted-foreground text-sm">Attract students to your Open Day.</p>
             </div>
-            <div className="rounded-lg border bg-card p-6 cursor-pointer transition-all hover:border-transparent relative"
+            <div className="rounded-lg border border-gray-300 dark:border-gray-700 bg-card p-6 cursor-pointer transition-all hover:border-transparent dark:hover:border-transparent relative"
               style={{
                 backgroundImage: 'linear-gradient(to right, hsl(var(--background)), hsl(var(--background))), linear-gradient(to right, #38bdf8, #1d4ed8)',
                 backgroundOrigin: 'border-box',
@@ -149,7 +149,7 @@ export function DashboardPage() {
               <h2 className="text-sm font-semibold">Create a new email template</h2>
               <p className="text-muted-foreground text-sm">Improve admissions with tailored content.</p>
             </div>
-            <div className="rounded-lg border bg-card p-6 cursor-pointer transition-all hover:border-transparent relative"
+            <div className="rounded-lg border border-gray-300 dark:border-gray-700 bg-card p-6 cursor-pointer transition-all hover:border-transparent dark:hover:border-transparent relative"
               style={{
                 backgroundImage: 'linear-gradient(to right, hsl(var(--background)), hsl(var(--background))), linear-gradient(to right, #38bdf8, #1d4ed8)',
                 backgroundOrigin: 'border-box',
@@ -163,7 +163,7 @@ export function DashboardPage() {
         {messages.length > 0 && (
           <div className="flex flex-col w-full">
             {messages.map((message, index) => (
-              <div key={index} className={`mb-3 ${index % 2 === 0 ? 'bg-gray-900 text-gray-100 p-2 rounded-lg max-w-fit' : ''}`}>
+              <div key={index} className={`mb-3 ${index % 2 === 0 ? 'dark:bg-gray-800 bg-gray-200 dark:text-gray-100 text-gray-900 p-2 rounded-lg max-w-fit' : ''}`}>
                 {message}
               </div>
             ))}
@@ -226,7 +226,7 @@ export function DashboardPage() {
               <div className="flex justify-between items-center p-2">
                 <div>
                   <Select defaultValue="claude-3.5">
-                    <SelectTrigger className="gap-2 text-muted-foreground border-0 bg-transparent focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-xs">
+                    <SelectTrigger className="gap-2 text-muted-foreground border-0 bg-transparent focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-xs hover:bg-accent hover:text-accent-foreground p-2 h-auto">
                       <SelectValue placeholder="Select AI model" />
                     </SelectTrigger>
                     <SelectContent>
@@ -240,7 +240,7 @@ export function DashboardPage() {
                 <div className="flex gap-2">
                   <button 
                     type="button"
-                    className="text-white flex justify-center items-center rounded-full hover:bg-gray-800 dark:hover:bg-gray-800 p-2"
+                    className="text-white flex justify-center items-center rounded-full hover:bg-accent hover:text-accent-foreground p-2"
                     style={{
                       height: '36px',
                       width: '36px',

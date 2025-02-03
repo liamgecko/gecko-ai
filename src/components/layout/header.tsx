@@ -240,7 +240,7 @@ export function Header({ onSearchClick }: { onSearchClick: () => void }) {
           <Input 
             type="text"
             placeholder="Search..."
-            className="w-full pl-8 pr-16 transition-all duration-300 border-border hover:border-transparent focus:border-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
+            className="w-full pl-8 pr-16 transition-all duration-300 hover:border-transparent focus:border-transparent focus-visible:ring-0 focus-visible:ring-offset-0 border border-gray-300 dark:border-gray-700 dark:hover:border-transparent"
             style={{
               backgroundImage: 'linear-gradient(to right, hsl(var(--background)), hsl(var(--background))), linear-gradient(to right, #38bdf8, #1d4ed8)',
               backgroundOrigin: 'border-box',
