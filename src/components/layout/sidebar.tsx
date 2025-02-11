@@ -202,31 +202,16 @@ const dataNav: NavItem[] = [
     title: "Contacts",
     href: "/contacts",
     icon: BookUser,
-    submenu: [
-      { title: "Create Form", href: "/forms/create" },
-      { title: "Form Templates", href: "/forms/templates" },
-      { title: "Form Responses", href: "/forms/responses" },
-    ],
   },
   {
     title: "Responses",
     href: "/responses",
     icon: Inbox,
-    submenu: [
-      { title: "Create Form", href: "/forms/create"},
-      { title: "Form Templates", href: "/forms/templates"},
-      { title: "Form Responses", href: "/forms/responses"},
-    ],
   },
   {
     title: "Messages",
     href: "/messages",
     icon: Mail,
-    submenu: [
-      { title: "Create Form", href: "/forms/create" },
-      { title: "Form Templates", href: "/forms/templates" },
-      { title: "Form Responses", href: "/forms/responses" },
-    ],
   },
 ];
 

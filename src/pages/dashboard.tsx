@@ -295,7 +295,7 @@ export function DashboardPage() {
                 <div className="flex gap-2">
                   <button 
                     type="button"
-                    className="text-white flex justify-center items-center rounded-full hover:bg-accent hover:text-accent-foreground p-2"
+                    className="dark:text-gray-200 text-gray-800 flex justify-center items-center rounded-full hover:bg-accent hover:text-accent-foreground p-2"
                     style={{
                       height: '36px',
                       width: '36px',
