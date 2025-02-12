@@ -23,12 +23,10 @@ import React from 'react'
 
 const FAVORITES_KEY = 'sidebar:favorites'
 
-// Add this route title mapping
 const routeTitles: Record<string, string> = {
   '/': 'Dashboard',
   '/settings': 'Settings',
   
-  // Account section
   '/settings/account': 'Account',
   '/settings/account/settings': 'Account settings',
   '/settings/account/templates': 'Email and SMS templates',
@@ -36,21 +34,18 @@ const routeTitles: Record<string, string> = {
   '/settings/account/categories': 'Categories',
   '/settings/account/tasks': 'Tasks and objectives',
   
-  // User management section
   '/settings/users': 'User management',
   '/settings/users/my-settings': 'My user settings',
   '/settings/users/list': 'Users',
   '/settings/users/groups': 'User groups',
   '/settings/users/devices': 'Mobile devices',
   
-  // Field management section
   '/settings/fields': 'Field management',
   '/settings/fields/contact': 'Contact fields',
   '/settings/fields/organisation': 'Organisation fields',
   '/settings/fields/org-types': 'Organisation types',
   '/settings/fields/options': 'Field options',
   
-  // Call and SMS section
   '/settings/communications': 'Call and SMS',
   '/settings/communications/outcomes': 'Outcomes',
   '/settings/communications/telephone': 'Telephone numbers',
@@ -58,7 +53,6 @@ const routeTitles: Record<string, string> = {
   '/settings/communications/usage': 'Usage and costs',
   '/settings/communications/test-voip': 'Test VoIP connection',
   
-  // Chat settings section
   '/settings/chat': 'Chat settings',
   '/settings/chat/widgets': 'Widgets',
   '/settings/chat/chatbots': 'Chatbots',
@@ -68,7 +62,6 @@ const routeTitles: Record<string, string> = {
   '/settings/chat/saved-replies': 'Saved replies',
   '/settings/chat/workflows': 'Chat workflows',
   
-  // Data management section
   '/settings/data': 'Data management',
   '/settings/data/integrations': 'Integrations',
   '/settings/data/import': 'Import data',
@@ -76,7 +69,6 @@ const routeTitles: Record<string, string> = {
   '/settings/data/labels': 'Labels',
   '/settings/data/security': 'Data security',
 
-  // Keep other existing routes
   '/forms': 'Forms',
   '/forms/create': 'Create Form',
   '/forms/templates': 'Form Templates',
@@ -91,13 +83,12 @@ const routeTitles: Record<string, string> = {
   '/messages': 'Messages',
 }
 
-export function Header({ onSearchClick }: { onSearchClick: () => void }) {
+export function Header() {
   const { state } = useSidebar()
   const isOpen = state === "expanded"
   const location = useLocation()
   const isLandingPage = location.pathname === "/"
   
-  // Create breadcrumb items from current path
   const getBreadcrumbItems = useCallback(() => {
     const pathSegments = location.pathname.split('/').filter(Boolean)
     return pathSegments.map((_, index) => {
@@ -111,13 +102,11 @@ export function Header({ onSearchClick }: { onSearchClick: () => void }) {
 
   const breadcrumbs = getBreadcrumbItems()
 
-  // Add useEffect to update document title
   useEffect(() => {
     const pageTitle = routeTitles[location.pathname] || 'Untitled Page'
     document.title = `${pageTitle} | Gecko Engage`
   }, [location.pathname])
 
-  // Add this effect to toggle body class
   useEffect(() => {
     if (isOpen) {
       document.body.classList.remove('menu-collapsed')
@@ -246,7 +235,6 @@ export function Header({ onSearchClick }: { onSearchClick: () => void }) {
               backgroundOrigin: 'border-box',
               backgroundClip: 'padding-box, border-box',
             }}
-            onFocus={onSearchClick}
           />
         </div>
       </div>

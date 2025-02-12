@@ -5,6 +5,7 @@ import { Routes, Route } from 'react-router-dom'
 import { DashboardPage } from './pages/dashboard'
 import { CommandDialog } from './components/layout/command'
 import React, { useState } from 'react'
+import WidgetTrigger from './components/layout/widget-trigger'
 
 function App() {
   const [isCommandDialogOpen, setCommandDialogOpen] = useState(false)
@@ -24,8 +25,10 @@ function App() {
               <Route path="/" element={<DashboardPage />} />
             </Routes>
           </div>
+          <WidgetTrigger onClick={toggleCommandDialog} />
         </main>
         <CommandDialog isOpen={isCommandDialogOpen} onClose={toggleCommandDialog} />
+       
       </div>
     </SidebarProvider>
   )

@@ -8,10 +8,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  [data-sidebar] a,
-  [data-sidebar] button {
-    font-size: 14px !important;
-  }
   :root {
     --background: 210 20% 98%;
     --foreground: 222.2 84% 4.9%;
@@ -102,8 +98,28 @@
   body {
     @apply bg-background text-foreground;
   }
+  [data-sidebar] a,
+  [data-sidebar] button {
+    font-size: 14px !important;
+  }
   input:focus-visible {
     box-shadow: none !important;
     outline: none !important;
+  }
+  .dialog-sidebar {
+    min-height: 100% !important;
+    max-height: 100% !important;
+  }
+  .dialog-sidebar .h-svh {
+    min-height: 100% !important;
+    max-height: 100% !important;
+  }
+
+  .dialog-sidebar .bg-sidebar {
+    background-color: #f3f4f6 !important;
+  }
+
+  .dark .dialog-sidebar .bg-sidebar {
+    background-color: #030712 !important;
   }
 }
