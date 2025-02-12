@@ -67,7 +67,7 @@ export const CommandDialog: React.FC<CommandDialogProps> = ({ isOpen, onClose })
                       <Button 
                         variant="ghost" 
                         size="icon" 
-                        className="shrink-0 h-8 w-8 text-gray-700 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800"
+                        className="shrink-0 h-8 w-8 text-gray-800 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800"
                       >
                         <Edit/>
                       </Button>
@@ -128,7 +128,7 @@ export const CommandDialog: React.FC<CommandDialogProps> = ({ isOpen, onClose })
                 </Button>
               </DialogClose>
             </div>
-            <div className="p-4 flex flex-col justify-between h-[calc(100%-65px)]">
+            <div className="p-5 flex flex-col justify-between h-[calc(100%-65px)]">
               <div className="max-w-3xl mx-auto w-full flex flex-col gap-6">
                 <div className="flex flex-row-reverse">
                   <div className="dark:bg-gray-900 bg-gray-200 p-4 rounded-lg gap-2 flex flex-col max-w-[80%]">
